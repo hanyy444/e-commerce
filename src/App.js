@@ -9,7 +9,8 @@ import Header from './components/header/Header';
 import SignInPage from './pages/signin/sign-in';
 
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase/firebase.setup'
+import { onSnapshot } from 'firebase/firestore'
+import { auth, createUserProfileDocument } from './firebase/firebase.setup'
 
 
 function App() {
@@ -17,10 +18,28 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
 
   useEffect(() => {
-    const unsubscribeFromAuth = onAuthStateChanged(auth, user => setCurrentUser(user))
+    const unsubscribeFromAuth = onAuthStateChanged(auth, async userAuth => {
+
+      if (userAuth) {
+
+        console.log('Authenticated in firebase, so will login automatically.')
+
+        const userRef = await createUserProfileDocument(userAuth);
+
+        onSnapshot(userRef, (snapShot => {
+          setCurrentUser({ id: snapShot.id, ...snapShot.data() })
+        }))
+
+        return;
+      }
+
+      setCurrentUser(userAuth);
+
+    })
     return () => unsubscribeFromAuth();
   }, [])
 
+  console.log(currentUser)
 
   return (
     <div>

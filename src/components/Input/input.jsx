@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './input.scss'
 
-const Input = ({ type, name, label, value, placeholder, onChange }) => {
+const Input = ({ type, name, label, value, placeholder, onChange, required }) => {
     
     return (
         <input 
@@ -10,7 +10,8 @@ const Input = ({ type, name, label, value, placeholder, onChange }) => {
             value={value}
             onChange={onChange}
             name={name}
-            placeholder={placeholder}/>
+            placeholder={placeholder}
+            required={required}/>
     )
 }
 
