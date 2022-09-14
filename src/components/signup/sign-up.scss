@@ -1,0 +1,24 @@
+.sign-up {
+    // height: 500px;
+    width: 40%;
+    // flex: 0.5;
+    padding: 20px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    .title {
+        font-weight: bold;
+    }
+    
+    .subtitle{
+        font-size: 12px;
+    }
+
+    form {
+        padding: 20px 0px;
+        width: 100%;
+    }
+
+}
