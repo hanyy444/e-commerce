@@ -20,8 +20,9 @@ export const firestore = getFirestore(app);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
 
-    // SAVE AND CREATE USER IN FIRESTORE DATABASE
+    // CREATE AND SAVE USER DOCUMENT IN FIRESTORE DATABASE
     // AUTHENTICATE USER 
+    // RETURN REF WHICH IS LINKED TO THE NEWLY CREATED DOCUMENT
 
     if (!userAuth) return;
 
@@ -35,7 +36,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         const createdAt = new Date();
 
         try {
-            await setDoc(doc(firestore, 'users', `${userAuth.uid}`), {
+            await setDoc(userRef, {
                 displayName,
                 email,
                 createdAt,

@@ -49,9 +49,9 @@ export const formSource = {
             }
 
             try {
-                const { user } = await createUserWithEmailAndPassword(auth, email, password);
+                const { userAuth } = await createUserWithEmailAndPassword(auth, email, password);
 
-                await createUserProfileDocument(user, { displayName })
+                await createUserProfileDocument(userAuth, { displayName })
 
             } catch (error) {
                 console.log('signing up user error', error.message)
