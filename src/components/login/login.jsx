@@ -22,8 +22,8 @@ const Login = () => {
         <div className='login'>
             <h3 className='title'>{title}</h3>
             <p className='subtitle'>{subtitle}</p>
-            <form onSubmit={(event) => submitButtons.signin.onSubmit(event, inputs)}>
-                {inputSource.map(input => <Input key={input.id} onChange={onChange} {...input}/>)}
+            <form onSubmit={(event) => submitButtons.signin.onSubmit(event, inputs, setInputs)}>
+                {inputSource.map(input => <Input key={input.id} value={inputs[input.name]} onChange={onChange} {...input}/>)}
                 <div className="form-footer">
                     <Button {...submitButtons.signin} />
                     <Button {...submitButtons.googleSignin} />

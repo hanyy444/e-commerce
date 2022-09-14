@@ -53,11 +53,11 @@ export const formSource = {
 
                 await createUserProfileDocument(user, { displayName })
 
-                setState({});
-
             } catch (error) {
                 console.log('signing up user error', error.message)
             }
+
+            setState({});
 
             // API-Request: Register Account
             // console.log(formData)

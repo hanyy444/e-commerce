@@ -1,4 +1,5 @@
-import { signInWithGoogle } from "../../firebase/firebase.setup";
+import { auth, signInWithGoogle } from "../../firebase/firebase.setup";
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 export const formSource = {
     title: "I already have an account.",
@@ -8,24 +9,33 @@ export const formSource = {
             id: 1,
             type: 'email',
             name: 'email',
-            placeholder: 'Email'
+            placeholder: 'Email',
+            required: true
         },
         {
             id: 2,
             type: 'password',
             name: 'password',
-            placeholder: 'Password'
+            placeholder: 'Password',
+            required: true
         }
     ],
     submitButtons: {
         signin: {
             text: 'SIGN IN',
-            onSubmit: (event, formData) => {
+            onSubmit: async (event, formData, setState) => {
                 event.preventDefault();
 
-                console.log(formData)
+                const { email, password } = formData
 
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
 
+                    setState({})
+
+                } catch (error) {
+                    console.log('sign in user error', error.message)
+                }
 
                 alert('Signed In.')
 

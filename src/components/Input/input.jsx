@@ -7,11 +7,12 @@ const Input = ({ type, name, label, value, placeholder, onChange, required }) =>
         <input 
             className='input'
             type={type}
-            value={value}
+            value={value || ''}
             onChange={onChange}
             name={name}
             placeholder={placeholder}
-            required={required}/>
+            required={required}
+            autoComplete="off"/>
     )
 }
 
