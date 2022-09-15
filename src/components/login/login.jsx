@@ -26,7 +26,7 @@ const Login = () => {
                 {inputSource.map(input => <Input key={input.id} value={inputs[input.name]} onChange={onChange} {...input}/>)}
                 <div className="form-footer">
                     <Button {...submitButtons.signin} />
-                    <Button {...submitButtons.googleSignin} />
+                    <Button {...submitButtons.googleSignin} classes="google-sign-in" />
                 </div>
             </form>
         </div>

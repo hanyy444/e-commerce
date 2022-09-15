@@ -5,4 +5,24 @@
     color: white;
     background-color: black;
     margin: 20px 10px;
+    
+    &:hover{
+        background-color: #555;
+    }
+
+    &.inverted{
+        color: black;
+        background-color: white;
+        &:hover{
+            color: white;
+            background-color: black;
+        }
+    }
+
+    &.google-sign-in {
+        background-color: rgb(84, 134, 228);
+        &:hover{ background-color: rgb(100, 127, 178);}
+    }
+
+
 }
