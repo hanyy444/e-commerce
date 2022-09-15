@@ -6,11 +6,13 @@ import Button from '../Button/button'
 
 import { connect } from 'react-redux'
 
+import CartItem from '../cart-item/cart-item'
+
 const CartDropdown = ({ cartItems }) => {
   return (
     <div className='cart-dropdown'>
         <div className="cart-items">
-            {cartItems.map( ({ name, quantity }) => <p>{name}, quantity: {quantity}</p>)}
+            {cartItems.map( item => <CartItem key={item.id} item={item} />)}
         </div>
         <Button text="Go To Checkout."/>
     </div>
