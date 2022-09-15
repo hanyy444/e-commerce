@@ -1,7 +1,7 @@
 import './App.css';
 
-import React, { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 import HomePage from './pages/homepage/HomePage';
 import ShopPage from './pages/shop/ShopPage';
@@ -14,7 +14,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.setup'
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions'
 
-function App({ setCurrentUser }) {
+function App({ currentUser, setCurrentUser }) {
 
   useEffect(() => {
 
@@ -36,7 +36,10 @@ function App({ setCurrentUser }) {
 
       setCurrentUser(userAuth);
 
+
+
     })
+
     return () => unsubscribeFromAuth();
   }, [])
 
@@ -46,11 +49,24 @@ function App({ setCurrentUser }) {
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route path='/shop' element={<ShopPage />} />
-        <Route path='/sign-in' element={<SignInPage />} />
+        <Route
+          path='/sign-in'
+          element={
+            !currentUser ? (
+              <SignInPage />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
       </Routes>
     </div>
   );
 }
+
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+})
 
 // from store, dispatch = apply reducer action/function and returns an object (type and payload)
 const mapDispatchToProps = dispatch => ({
@@ -58,4 +74,4 @@ const mapDispatchToProps = dispatch => ({
 })
 
 // app doesn't need any props (no mapStateToProps), so null is passed
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
