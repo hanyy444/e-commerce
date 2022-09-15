@@ -2,11 +2,12 @@ import React from 'react'
 import './header.scss'
 import { Link } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/4.3 crown.svg.svg'
+import CartIcon from '../cart-icon/cart-icon'
 import {auth} from '../../firebase/firebase.setup'
-
 import { connect } from 'react-redux'
+import CartDropdown from '../cart-dropdown/cart-dropdown'
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hiddenCart }) => {
      
     return (
         <div className='header'>
@@ -26,14 +27,18 @@ const Header = ({ currentUser }) => {
                     : 
                     <Link className='option' to='/sign-in'>SIGN IN</Link>
                 }
+                <CartIcon />
             </div>
+            {!hiddenCart && <CartDropdown />}
         </div>
     )
 }
 
 // state here is the top level root reducer
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+// state destructre
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden }}) => ({
+    currentUser,
+    hiddenCart: hidden
 })
 
 
