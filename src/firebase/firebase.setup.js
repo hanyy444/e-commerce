@@ -23,6 +23,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     // CREATE AND SAVE USER DOCUMENT IN FIRESTORE DATABASE
     // AUTHENTICATE USER 
     // RETURN REF WHICH IS LINKED TO THE NEWLY CREATED DOCUMENT
+    // SO THAT AUTHENTICATED USER BECOMES DATABASE USER
 
     if (!userAuth) return;
 

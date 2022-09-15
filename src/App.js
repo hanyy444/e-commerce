@@ -11,13 +11,14 @@ import SignInPage from './pages/signin/sign-in';
 import { onAuthStateChanged } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore'
 import { auth, createUserProfileDocument } from './firebase/firebase.setup'
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/user/user.actions'
 
-
-function App() {
-
-  const [currentUser, setCurrentUser] = useState(null)
+function App({ setCurrentUser }) {
 
   useEffect(() => {
+
+    // Checks if user is authenticated by Google
     const unsubscribeFromAuth = onAuthStateChanged(auth, async userAuth => {
 
       if (userAuth) {
@@ -39,11 +40,9 @@ function App() {
     return () => unsubscribeFromAuth();
   }, [])
 
-  console.log(currentUser)
-
   return (
     <div>
-      <Header user={currentUser} />
+      <Header />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         <Route path='/shop' element={<ShopPage />} />
@@ -53,4 +52,10 @@ function App() {
   );
 }
 
-export default App;
+// from store, dispatch = apply reducer action/function and returns an object (type and payload)
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+})
+
+// app doesn't need any props (no mapStateToProps), so null is passed
+export default connect(null, mapDispatchToProps)(App);
