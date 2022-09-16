@@ -1,17 +1,15 @@
-import React, {useState} from 'react'
+import React from 'react'
+import { Outlet } from 'react-router-dom';
 import './shoppage.scss';
-import { SHOP_DATA } from './shop.static.data';
-import PreviewCollection from '../../components/preview-collection/PreviewCollection';
 
 const ShopPage = () => {
-
-    const [shopData, setShopData] = useState(SHOP_DATA)
-
     return (
         <div className='shoppage'>
-            {shopData.map(collection => <PreviewCollection key={collection.id} {...collection}/>)}
+            <Outlet />            
         </div>
     )
 }
 
-export default ShopPage
+
+
+export default ShopPage;

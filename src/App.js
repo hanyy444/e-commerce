@@ -7,7 +7,10 @@ import HomePage from './pages/homepage/HomePage';
 import ShopPage from './pages/shop/ShopPage';
 import Header from './components/header/Header';
 import SignInPage from './pages/signin/sign-in';
+import CollectionPage from './pages/collection/CollectionPage';
 import Checkout from './pages/checkout/checkout';
+
+import CollectionsOverview from './components/collections-overview/collections-overview';
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore'
@@ -50,7 +53,10 @@ function App({ currentUser, setCurrentUser }) {
       <Routes>
         <Route exact path='/' element={<HomePage />} />
         {/* No exact because it will route to others /shop/mens , /shop/mens/:id */}
-        <Route path='/shop' element={<ShopPage />} />
+        <Route path='/shop' element={<ShopPage />}>
+          <Route index element={<CollectionsOverview />} />
+          <Route path=':collectionName' element={<CollectionPage />} />
+        </Route>
         <Route exact path='/checkout' element={<Checkout />} />
         <Route
           exact
