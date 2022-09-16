@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { createStructuredSelector } from 'reselect';
 
 const CartIcon = ({ toggleCartHidden, itemCount }) => {
   return (
@@ -18,11 +19,15 @@ const CartIcon = ({ toggleCartHidden, itemCount }) => {
   )
 }
 
+// const mapStateToProps = state => ({
+//     itemCount: selectCartItemsCount(state)
+// })
+
 // Normally ite creates a new object making a new state which causes a Re-render
 // Performance issue: re-render everytime even cardItems is not changed
-// Solution: Memoization using 
-const mapStateToProps = state => ({
-    itemCount: selectCartItemsCount(state)
+// Solution: Memoization using reselect
+const mapStateToProps = createStructuredSelector({
+  itemCount: selectCartItemsCount
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -6,6 +6,10 @@ import CartIcon from '../cart-icon/cart-icon'
 import {auth} from '../../firebase/firebase.setup'
 import { connect } from 'react-redux'
 import CartDropdown from '../cart-dropdown/cart-dropdown'
+import { createStructuredSelector } from 'reselect'
+import { selectCartHidden } from '../../redux/cart/cart.selectors'
+import { selectCurrentUser } from '../../redux/user/user.selectors'
+
 
 const Header = ({ currentUser, hiddenCart }) => {
      
@@ -35,10 +39,15 @@ const Header = ({ currentUser, hiddenCart }) => {
 }
 
 // state here is the top level root reducer
-// state destructre
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden }}) => ({
-    currentUser,
-    hiddenCart: hidden
+// - bad pattern
+// const mapStateToProps = state => ({
+//     currentUser: selectCurrentUser(state),
+//     hiddenCart: selectCartHidden(state)
+// })
+// - better pattern
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hiddenCart: selectCartHidden
 })
 
 

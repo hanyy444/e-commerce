@@ -7,6 +7,7 @@ import HomePage from './pages/homepage/HomePage';
 import ShopPage from './pages/shop/ShopPage';
 import Header from './components/header/Header';
 import SignInPage from './pages/signin/sign-in';
+import Checkout from './pages/checkout/checkout';
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore'
@@ -48,8 +49,11 @@ function App({ currentUser, setCurrentUser }) {
       <Header />
       <Routes>
         <Route exact path='/' element={<HomePage />} />
+        {/* No exact because it will route to others /shop/mens , /shop/mens/:id */}
         <Route path='/shop' element={<ShopPage />} />
+        <Route exact path='/checkout' element={<Checkout />} />
         <Route
+          exact
           path='/sign-in'
           element={
             !currentUser ? (
