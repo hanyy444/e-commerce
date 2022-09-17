@@ -12,9 +12,10 @@ const CollectionPage = () => {
 
     const { collectionName } = useParams();
 
+    // Alternative to mapStateToProps
     const collection = useSelector(state => selectCollection(collectionName)(state))
 
-    const { title, items }= collection
+    const { title, items } = collection
 
     return (
         <div className='collection-page'>
@@ -25,11 +26,5 @@ const CollectionPage = () => {
         </div>
     )
 }
-
-
-// Instead of using connect which is a legacy way, useSelector hook instead
-// const mapStateToProps = (state, ownProps) => ({
-//     collection: selectCollection()
-// })
 
 export default CollectionPage
