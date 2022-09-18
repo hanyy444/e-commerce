@@ -1,5 +1,6 @@
-import { auth, createUserProfileDocument } from '../../firebase/firebase.setup'
+import { auth } from '../../firebase/firebase.setup'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserProfileDocument } from '../../firebase/firebase.utils'
 
 export const formSource = {
     title: "I don't have an account",

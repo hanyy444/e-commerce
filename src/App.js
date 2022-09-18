@@ -5,7 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 
 import HomePage from './pages/homepage/HomePage';
 import ShopPage from './pages/shop/ShopPage';
-import Header from './components/header/Header';
+import Header from './components/header/header.component';
 import SignInPage from './pages/signin/sign-in';
 import CollectionPage from './pages/collection/CollectionPage';
 import Checkout from './pages/checkout/checkout';
@@ -14,15 +14,21 @@ import CollectionsOverview from './components/collections-overview/collections-o
 
 import { onAuthStateChanged } from 'firebase/auth';
 import { onSnapshot } from 'firebase/firestore'
-import { auth, createUserProfileDocument } from './firebase/firebase.setup'
-import { connect } from 'react-redux';
+import { auth } from './firebase/firebase.setup'
 import { setCurrentUser } from './redux/user/user.actions'
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils'
+
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors'
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 function App({ currentUser, setCurrentUser }) {
 
   useEffect(() => {
 
-    // Checks if user is authenticated by Google
+    // Observer Pattern: sign in/out events stream on live firestore database
+    // Live Update function
     const unsubscribeFromAuth = onAuthStateChanged(auth, async userAuth => {
 
       if (userAuth) {
@@ -39,8 +45,6 @@ function App({ currentUser, setCurrentUser }) {
       }
 
       setCurrentUser(userAuth);
-
-
 
     })
 
@@ -74,8 +78,9 @@ function App({ currentUser, setCurrentUser }) {
   );
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
 })
 
 // from store, dispatch = apply reducer action/function and returns an object (type and payload)

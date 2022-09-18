@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+plopFile.js
+plop-templates/component.jsx.hbs
+plop-templates/component.scss.hbs
+plop-templates/page.jsx.hbs
+plop-templates/page.scss.hbs

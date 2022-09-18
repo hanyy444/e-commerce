@@ -44,6 +44,7 @@ export const formSource = {
         },
         googleSignin: {
             text: 'SIGN IN WITH GOOGLE',
+            isGoogleSignIn: true,
             onClick: async (event) => {
                 event.preventDefault();
                 try {

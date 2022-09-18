@@ -1,10 +1,11 @@
 import React from 'react'
-import './button.scss'
+import ButtonContainer from './button.styles'
 
-const Button = ({ text, style, onClick, inverted, classes }) => {
-  return (
-    <button style={style} onClick={onClick} className={`${inverted ? `inverted` : ``} button ${classes}`}>{text.toUpperCase()}</button>
-  )
-}
+const Button = (props) => (
+  <ButtonContainer {...props}>
+    {props.text.toUpperCase()}
+  </ButtonContainer>
+)
+
 
 export default Button

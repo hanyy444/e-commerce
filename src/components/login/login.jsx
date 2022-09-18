@@ -7,8 +7,9 @@ import { formSource } from './login.helper';
 
 const Login = () => {
     
-    const { title, subtitle, inputs: inputSource, submitButtons } = formSource
+    const { title, subtitle, inputs: inputSource, submitButtons: { signin, googleSignin} } = formSource
 
+    // Performance issue???
     const state = inputSource.reduce((obj, item) => (obj[item.name] = item.value, obj), {});
 
     const [inputs, setInputs] = useState(state)
@@ -22,11 +23,11 @@ const Login = () => {
         <div className='login'>
             <h3 className='title'>{title}</h3>
             <p className='subtitle'>{subtitle}</p>
-            <form onSubmit={(event) => submitButtons.signin.onSubmit(event, inputs, setInputs)}>
+            <form onSubmit={(event) => signin.onSubmit(event, inputs, setInputs)}>
                 {inputSource.map(input => <Input key={input.id} value={inputs[input.name]} onChange={onChange} {...input}/>)}
                 <div className="form-footer">
-                    <Button {...submitButtons.signin} />
-                    <Button {...submitButtons.googleSignin} classes="google-sign-in" />
+                    <Button {...signin} />
+                    <Button {...googleSignin} />
                 </div>
             </form>
         </div>
