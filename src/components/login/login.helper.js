@@ -23,6 +23,7 @@ export const formSource = {
     submitButtons: {
         signin: {
             text: 'SIGN IN',
+            type: 'submit',
             onSubmit: async (event, formData, setState) => {
                 event.preventDefault();
 
@@ -45,14 +46,15 @@ export const formSource = {
         googleSignin: {
             text: 'SIGN IN WITH GOOGLE',
             isGoogleSignIn: true,
-            onClick: async (event) => {
-                event.preventDefault();
-                try {
-                    await signInWithGoogle();
-                } catch (error) {
-                    console.log(error);
-                }
-            }
+            type: 'button'
+            // onClick: async (event) => {
+            //     event.preventDefault();
+            //     try {
+            //         await signInWithGoogle();
+            //     } catch (error) {
+            //         console.log(error);
+            //     }
+            // }
         }
     }
 }

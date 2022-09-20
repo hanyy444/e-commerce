@@ -5,7 +5,10 @@ import Button from '../Button/button'
 
 import { formSource } from './sign-up.helper.js'
 
-const SignUp = () => {
+import { connect } from 'react-redux'
+import { signUpStart } from '../../redux/user/user.actions'
+
+const SignUp = ({ signUpStart }) => {
 
     const { title, subtitle, inputs: inputSource, submitButton } = formSource
 
@@ -19,11 +22,24 @@ const SignUp = () => {
         setInputs({ ...inputs, [name]: value})
     }
 
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        const {password, confirmPassword} = inputs;
+
+        if (password !== confirmPassword) {
+            alert("Passwords don't match.")
+            return;
+        }
+
+        signUpStart(inputs)
+    }
+
     return (
         <div className='sign-up'>
             <h3 className="title">{title}</h3>            
             <p className='subtitle'>{subtitle}</p>
-            <form onSubmit={(event)=>submitButton.onSubmit(event, inputs, setInputs)}>
+            <form onSubmit={(event)=>onSubmit(event)}>
                 {inputSource.map(input=> <Input key={input.id} value={inputs[input.name]} onChange={onChange} {...input}/>)}
                 <Button text={submitButton.text} />
             </form>
@@ -31,4 +47,8 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+const mapDispatchToProps = dispatch => ({
+    signUpStart: (signUpForm) => dispatch(signUpStart(signUpForm))
+})
+
+export default connect(null, mapDispatchToProps)(SignUp)

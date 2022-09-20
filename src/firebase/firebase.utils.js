@@ -1,5 +1,6 @@
-import { firestore } from './firebase.setup';
+import { firestore, auth } from './firebase.setup';
 import { doc, collection, setDoc, getDoc, getDocs, writeBatch, addDoc } from 'firebase/firestore'
+import { onAuthStateChanged } from 'firebase/auth';
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
 
@@ -38,6 +39,15 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
 
     return userRef;
+}
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, userAuth => {
+            unsubscribe();
+            resolve(userAuth)
+        }, reject)
+    })
 }
 
 export const convertCollectionsSnapshotToMap = snapShot =>

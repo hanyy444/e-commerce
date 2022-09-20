@@ -26,8 +26,11 @@ import {auth} from '../../firebase/firebase.setup'
 // Components
 import CartDropdown from '../cart-dropdown/cart-dropdown'
 
+// Redux - Actions
+import { signOutStart } from '../../redux/user/user.actions'
 
-const Header = ({ currentUser, hiddenCart }) => (
+
+const Header = ({ currentUser, hiddenCart, signOutStart }) => (
     <HeaderContainer>
         <LogoContainer to="/">
             <Logo className='logo'/>
@@ -41,7 +44,7 @@ const Header = ({ currentUser, hiddenCart }) => (
             </OptionLink>
             {
                 currentUser ? 
-                <OptionButton onClick={() => auth.signOut()}>SIGN OUT</OptionButton> 
+                <OptionButton onClick={signOutStart}>SIGN OUT</OptionButton> 
                 : 
                 <OptionLink to='/sign-in'>SIGN IN</OptionLink>
             }
@@ -64,8 +67,12 @@ const mapStateToProps = createStructuredSelector({
     hiddenCart: selectCartHidden
 })
 
+const mapDispatchToProps = dispatch => ({
+    signOutStart: () => dispatch(signOutStart())
+})
+
 
 // connect to redux store
 // 1st parameter is a function that allows access to the state
 // this returns a callback with a higher order component wrapped around Header to give it access to the store
-export default connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

@@ -3,9 +3,12 @@ import Button from '../Button/button';
 import Input from '../Input/input';
 import './login.scss'
 
+import { googleSignInStart, emailSignInStart } from '../../redux/user/user.actions';
+import { connect } from 'react-redux';
+
 import { formSource } from './login.helper';
 
-const Login = () => {
+const Login = ({ googleSignInStart, emailSignInStart }) => {
     
     const { title, subtitle, inputs: inputSource, submitButtons: { signin, googleSignin} } = formSource
 
@@ -18,20 +21,33 @@ const Login = () => {
         const { value, name } = event.target;
         setInputs({...inputs, [name]: value})
     }
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+
+        const { email, password } = inputs;
+
+        emailSignInStart(email, password)
+    }
     
     return (
         <div className='login'>
             <h3 className='title'>{title}</h3>
             <p className='subtitle'>{subtitle}</p>
-            <form onSubmit={(event) => signin.onSubmit(event, inputs, setInputs)}>
+            <form onSubmit={(event) => onSubmit(event)}>
                 {inputSource.map(input => <Input key={input.id} value={inputs[input.name]} onChange={onChange} {...input}/>)}
                 <div className="form-footer">
                     <Button {...signin} />
-                    <Button {...googleSignin} />
+                    <Button {...googleSignin} onClick={googleSignInStart} />
                 </div>
             </form>
         </div>
     )
 }
 
-export default Login
+const mapDispatchToProps = dispatch => ({
+    googleSignInStart: () => dispatch(googleSignInStart()),
+    emailSignInStart: (email, password) => dispatch(emailSignInStart({email, password}))
+})
+
+export default connect(null, mapDispatchToProps)(Login)

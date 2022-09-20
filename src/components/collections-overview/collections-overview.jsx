@@ -5,7 +5,6 @@ import { selectCollectionsForPreview } from '../../redux/shop/shop.selectors'
 import PreviewCollection from '../preview-collection/PreviewCollection'
 
 import React from 'react'
-import { useOutletContext } from 'react-router-dom'
 
 import './collections-overview.scss'
 

@@ -1,7 +1,3 @@
-import { auth } from '../../firebase/firebase.setup'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { createUserProfileDocument } from '../../firebase/firebase.utils'
-
 export const formSource = {
     title: "I don't have an account",
     subtitle: "Sign Up with your email and password.",
@@ -39,33 +35,6 @@ export const formSource = {
     ],
     submitButton: {
         text: "SIGN UP",
-        onSubmit: async (event, formData, setState) => {
-            event.preventDefault();
-
-            const { displayName, email, password, confirmPassword } = formData;
-
-            if (password !== confirmPassword) {
-                alert("Passwords don't match.")
-                return;
-            }
-
-            try {
-                const { userAuth } = await createUserWithEmailAndPassword(auth, email, password);
-
-                await createUserProfileDocument(userAuth, { displayName })
-
-            } catch (error) {
-                console.log('signing up user error', error.message)
-            }
-
-            setState({});
-
-            // API-Request: Register Account
-            // console.log(formData)
-            alert('form submitted.')
-
-            // Redirect somewhere..
-            return;
-        }
+        type: 'submit'
     }
 }
