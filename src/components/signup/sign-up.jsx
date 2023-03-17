@@ -7,16 +7,20 @@ import { formSource } from './sign-up.helper.js'
 
 import { connect } from 'react-redux'
 import { signUpStart } from '../../redux/user/user.actions'
+import { useEffect } from 'react'
 
 const SignUp = ({ signUpStart }) => {
 
     const { title, subtitle, inputs: inputSource, submitButton } = formSource
 
-    // Reduce from array of objects to object {name: value} and '' on initial state
-    const state = inputSource.reduce((initialState, input) => (initialState[input.name], initialState), {});
+    const [inputs, setInputs] = useState(null)
     
-    const [inputs, setInputs] = useState(state)
-
+    useEffect(()=>{
+        // Reduce from array of objects to object {name: value} on initial state
+        const state = inputSource.reduce((initialState, input) => (initialState[input.name], initialState), {});
+        setInputs(state);
+    }, [inputSource])
+    
     const onChange = (event) => {
         const { value, name } = event.target;
         setInputs({ ...inputs, [name]: value})
@@ -25,7 +29,7 @@ const SignUp = ({ signUpStart }) => {
     const onSubmit = (event) => {
         event.preventDefault();
 
-        const {password, confirmPassword} = inputs;
+        const { password, confirmPassword } = inputs;
 
         if (password !== confirmPassword) {
             alert("Passwords don't match.")
@@ -35,7 +39,7 @@ const SignUp = ({ signUpStart }) => {
         signUpStart(inputs)
     }
 
-    return (
+    return inputs && (
         <div className='sign-up'>
             <h3 className="title">{title}</h3>            
             <p className='subtitle'>{subtitle}</p>

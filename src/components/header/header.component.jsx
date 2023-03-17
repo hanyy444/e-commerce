@@ -39,9 +39,9 @@ const Header = ({ currentUser, hiddenCart, signOutStart }) => (
             <OptionLink to='/shop'>
                 SHOP
             </OptionLink>
-            <OptionLink to='/shop'>
+            {/* <OptionLink to='/shop'>
                 CONTACT
-            </OptionLink>
+            </OptionLink> */}
             {
                 currentUser ? 
                 <OptionButton onClick={signOutStart}>SIGN OUT</OptionButton> 

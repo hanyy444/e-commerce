@@ -1,6 +1,11 @@
 .collection-page {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    @media screen and (max-width:630px) {
+        padding: 35px;
+        gap: 10px;
+    }
 
     .title {
         font-size: 38px;
@@ -9,8 +14,14 @@
 
     .items {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 10px;
+
+        overflow: scroll;
+        scroll-behavior: smooth;
+        &::-webkit-scrollbar {
+            display: none;
+        }
 
         & .collection-item {
             margin-bottom: 30px;

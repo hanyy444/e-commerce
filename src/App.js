@@ -1,16 +1,7 @@
-import './App.css';
+import GlobalStyle from './global.styles';
 
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'
-
-import HomePage from './pages/homepage/HomePage';
-import ShopPage from './pages/shop/ShopPage';
-import Header from './components/header/header.component';
-import SignInPage from './pages/signin/sign-in';
-import Checkout from './pages/checkout/checkout';
-
-import CollectionsOverviewContainer from './components/collections-overview/collections-overview.container';
-import CollectionPageContainer from './pages/collection/collection.container';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -18,36 +9,44 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 
 import { checkUserSession } from './redux/user/user.actions'
 
+import Spinner from './components/spinner/spinner.component';
+
+// LAZY Loading
+const HomePage = lazy(() => import('./pages/homepage/HomePage'));
+const ShopPage = lazy(() => import('./pages/shop/ShopPage'));
+const Header = lazy(() => import('./components/header/header.component'));
+const SignInPage = lazy(() => import('./pages/signin/sign-in'));
+const Checkout = lazy(() => import('./pages/checkout/checkout'));
+const CollectionsOverviewContainer = lazy(() => import('./components/collections-overview/collections-overview.container'));
+const CollectionPageContainer = lazy(() => import('./pages/collection/collection.container'));
+
 function App({ currentUser, checkUserSession }) {
 
   useEffect(() => {
     checkUserSession();
-  }, [])
+  }, [checkUserSession])
 
   return (
-    <div>
-      <Header />
-      <Routes>
-        <Route exact path='/' element={<HomePage />} />
-        {/* No exact because it will route to others /shop/mens , /shop/mens/:id */}
-        <Route path='/shop' element={<ShopPage />}>
-          <Route index element={<CollectionsOverviewContainer />} />
-          <Route path=':collectionName' element={<CollectionPageContainer />} />
-        </Route>
-        <Route exact path='/checkout' element={<Checkout />} />
-        <Route
-          exact
-          path='/sign-in'
-          element={
-            !currentUser ? (
-              <SignInPage />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        />
-      </Routes>
-    </div>
+    <>
+      <Suspense fallback={<Spinner />}>
+        <GlobalStyle />
+        <Header />
+        <Routes>
+          <Route exact path='/' element={<HomePage />} />
+          {/* No exact because it will route to others /shop/mens , /shop/mens/:id */}
+          <Route path='/shop' element={<ShopPage />}>
+            <Route index element={<CollectionsOverviewContainer />} />
+            <Route path=':collectionName' element={<CollectionPageContainer />} />
+          </Route>
+          <Route exact path='/checkout' element={<Checkout />} />
+          <Route
+            exact
+            path='/sign-in'
+            element={!currentUser ? (<SignInPage />) : (<Navigate to="/" replace />)}
+          />
+        </Routes>
+      </Suspense>
+    </>
   );
 }
 
